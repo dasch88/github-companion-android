@@ -7,5 +7,7 @@ import com.aptera.githubcompanion.lib.model.User;
  * Created by daschliman on 12/21/2015.
  */
 public interface IUserManager {
+    User getCurrentUser();
     User Login(String username, String password) throws BusinessLogicException;
+    void Logout();
 }

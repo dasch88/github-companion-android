@@ -3,6 +3,7 @@ package com.aptera.githubcompanion.app.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -32,7 +33,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import com.aptera.githubcompanion.R;
 import com.aptera.githubcompanion.app.BaseActivity;
@@ -40,7 +40,6 @@ import com.aptera.githubcompanion.app.loaders.ResponseLoader;
 import com.aptera.githubcompanion.lib.businesslogic.BusinessLogicException;
 import com.aptera.githubcompanion.lib.businesslogic.IUserManager;
 import com.aptera.githubcompanion.lib.data.Response;
-import com.aptera.githubcompanion.lib.data.IGitHubApi;
 import com.aptera.githubcompanion.lib.model.User;
 
 import javax.inject.Inject;
@@ -60,7 +59,7 @@ public class LoginActivity extends BaseActivity {
     private static final int SIGN_IN_LOADER_ID = 2;
 
     // UI references.
-    private AutoCompleteTextView mUsernameEmailView;
+    private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -74,7 +73,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mUsernameEmailView = (AutoCompleteTextView) findViewById(R.id.username_email);
+        mUsernameView = (AutoCompleteTextView) findViewById(R.id.username);
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -201,7 +200,7 @@ public class LoginActivity extends BaseActivity {
             return true;
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mUsernameEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(mUsernameView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
@@ -220,7 +219,7 @@ public class LoginActivity extends BaseActivity {
                 new ArrayAdapter<>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mUsernameEmailView.setAdapter(adapter);
+        mUsernameView.setAdapter(adapter);
     }
 
     /**
@@ -231,11 +230,11 @@ public class LoginActivity extends BaseActivity {
     private void attemptLogin() {
 
         // Reset errors.
-        mUsernameEmailView.setError(null);
+        mUsernameView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String usernameEmail = mUsernameEmailView.getText().toString();
+        String usernameEmail = mUsernameView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -243,15 +242,15 @@ public class LoginActivity extends BaseActivity {
 
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password)) {
-            mUsernameEmailView.setError(getString(R.string.error_field_required));
+            mUsernameView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(usernameEmail)) {
-            mUsernameEmailView.setError(getString(R.string.error_field_required));
-            focusView = mUsernameEmailView;
+            mUsernameView.setError(getString(R.string.error_field_required));
+            focusView = mUsernameView;
             cancel = true;
         }
 
@@ -267,7 +266,7 @@ public class LoginActivity extends BaseActivity {
         }
     }
     private void performLogin(final String username, final String password) {
-        final Context ctx = this;
+        final Activity ctx = this;
         getLoaderManager().restartLoader(SIGN_IN_LOADER_ID, null, new LoaderCallbacks<Response<User>>() {
             @Override
             public Loader<Response<User>> onCreateLoader(int id, Bundle args) {
@@ -283,12 +282,12 @@ public class LoginActivity extends BaseActivity {
             public void onLoadFinished(Loader<Response<User>> loader, Response<User> data) {
                 showProgress(false);
                 if (data.hasError()) {
-                    Toast.makeText(getApplicationContext(), "Unable to log in: " + data.getException().toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Unable to log in: " + data.getException().getMessage(), Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Welcome, " + data.getResult().getLogin() + "!", Toast.LENGTH_LONG).show();
                     Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-                    mainIntent.putExtra(MainActivity.USERNAME_EXTRA, username);
                     startActivity(mainIntent);
+                    ctx.finish();
                 }
                 mPasswordView.setText(null);
             }

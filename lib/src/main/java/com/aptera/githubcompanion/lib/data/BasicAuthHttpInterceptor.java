@@ -15,8 +15,13 @@ public class BasicAuthHttpInterceptor implements Interceptor, IAuthHttpIntercept
     private String mAuthHeader;
 
     public void setCredentials(String username, String password) {
-        byte[] bytes = (username + ":" + password).getBytes();
-        mAuthHeader = "Basic " + Base64.encodeBytes(bytes);
+        if(username != null && password != null) {
+            byte[] bytes = (username + ":" + password).getBytes();
+            mAuthHeader = "Basic " + Base64.encodeBytes(bytes);
+        }
+        else {
+            mAuthHeader = null;
+        }
     }
 
     public void clearCredentials() {
