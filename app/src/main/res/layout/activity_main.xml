@@ -9,4 +9,82 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.aptera.githubcompanion.app.activities.MainActivity">
 
+    <!--Username-->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtUsernameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/label_data_margin"
+        android:text="@string/username_label"/>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txtUsernameLabel"
+        android:text="N/A"/>
+
+    <!--Name-->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/label_data_margin"
+        android:layout_below="@id/txtUsernameLabel"
+        android:text="@string/name_label"/>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txtNameLabel"
+        android:layout_below="@id/txtUsernameLabel"
+        android:text="N/A"/>
+
+    <!--Email-->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtEmailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/label_data_margin"
+        android:layout_below="@id/txtNameLabel"
+        android:text="@string/email_label"/>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txtEmailLabel"
+        android:layout_below="@id/txtNameLabel"
+        android:text="N/A"/>
+
+    <!--Follower Count-->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtFollowerCountLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/label_data_margin"
+        android:layout_below="@id/txtEmailLabel"
+        android:text="@string/follower_count_label"/>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtFollowerCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txtFollowerCountLabel"
+        android:layout_below="@id/txtEmailLabel"
+        android:text="N/A"/>
+
+    <!--Following Count-->
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtFollowingCountLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/label_data_margin"
+        android:layout_below="@id/txtFollowerCountLabel"
+        android:text="@string/following_count_label"/>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/txtFollowingCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txtFollowingCountLabel"
+        android:layout_below="@id/txtFollowerCountLabel"
+        android:text="N/A"/>
+
 </RelativeLayout>
