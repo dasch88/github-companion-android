@@ -1,4 +1,4 @@
-package com.aptera.githubcompanion.app.loaders;
+package com.aptera.githubcompanion.lib.data;
 
 import java.util.concurrent.Callable;
 
@@ -11,7 +11,7 @@ public class Response<T> {
     private Exception mException;
     private T mResult;
 
-    static <T> Response<T> ok(T data){
+    public static <T> Response<T> ok(T data){
 
         Response<T> response = new Response<T>();
         response.mResult = data;
@@ -19,22 +19,12 @@ public class Response<T> {
         return  response;
     }
 
-    static <T> Response<T> error(Exception ex){
+    public static <T> Response<T> error(Exception ex){
 
         Response<T> response = new Response<T>();
         response.mException = ex;
 
         return  response;
-    }
-
-    static <T> Response<T> call(Callable<T> func) {
-        try {
-            T result = func.call();
-            return Response.ok(result);
-        }
-        catch(Exception ex) {
-            return Response.error(ex);
-        }
     }
 
     public boolean hasError() {

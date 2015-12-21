@@ -3,7 +3,8 @@ package com.aptera.githubcompanion.app.loaders;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
-import java.util.concurrent.Callable;
+import com.aptera.githubcompanion.lib.businesslogic.BusinessLogicException;
+import com.aptera.githubcompanion.lib.data.Response;
 
 /**
  * Created by daschliman on 12/17/2015.
@@ -58,6 +59,6 @@ public abstract class ResponseLoader<TResult> extends AsyncTaskLoader<Response<T
         mCachedResponse = null;
     }
 
-    protected abstract TResult performLoad();
+    protected abstract TResult performLoad() throws BusinessLogicException;
 
 }

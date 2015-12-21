@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
 import android.content.CursorLoader;
@@ -33,13 +32,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
+import java.util.regex.Pattern;
 
 import com.aptera.githubcompanion.R;
 import com.aptera.githubcompanion.app.BaseActivity;
 import com.aptera.githubcompanion.app.loaders.ResponseLoader;
-import com.aptera.githubcompanion.app.loaders.Response;
-import com.aptera.githubcompanion.lib.data.IAuthHttpInterceptor;
+import com.aptera.githubcompanion.lib.businesslogic.BusinessLogicException;
+import com.aptera.githubcompanion.lib.businesslogic.IUserManager;
+import com.aptera.githubcompanion.lib.data.Response;
 import com.aptera.githubcompanion.lib.data.IGitHubApi;
 import com.aptera.githubcompanion.lib.model.User;
 
@@ -67,9 +67,7 @@ public class LoginActivity extends BaseActivity {
 
     //injected members
     @Inject
-    public IGitHubApi gitHubApi;
-    @Inject
-    public IAuthHttpInterceptor authHttpInterceptor;
+    public IUserManager userManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -244,8 +242,8 @@ public class LoginActivity extends BaseActivity {
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        if (TextUtils.isEmpty(password)) {
+            mUsernameEmailView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -253,10 +251,6 @@ public class LoginActivity extends BaseActivity {
         // Check for a valid email address.
         if (TextUtils.isEmpty(usernameEmail)) {
             mUsernameEmailView.setError(getString(R.string.error_field_required));
-            focusView = mUsernameEmailView;
-            cancel = true;
-        } else if (!isEmailValid(usernameEmail) && !isUsernameValid(usernameEmail)) {
-            mUsernameEmailView.setError(getString(R.string.error_invalid_username_email));
             focusView = mUsernameEmailView;
             cancel = true;
         }
@@ -272,29 +266,15 @@ public class LoginActivity extends BaseActivity {
             performLogin(usernameEmail, password);
         }
     }
-    private boolean isUsernameValid(String username) {
-        //TODO: Must be alphanumeric or single hyphens. Cannot start or end with hyphen.
-        return true;
-    }
-    private boolean isEmailValid(String email) {
-        return email.contains("@");
-    }
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
     private void performLogin(final String username, final String password) {
         final Context ctx = this;
-        final IGitHubApi api = gitHubApi;
-        final IAuthHttpInterceptor auth = authHttpInterceptor;
-        auth.setCredentials(username, password);
         getLoaderManager().restartLoader(SIGN_IN_LOADER_ID, null, new LoaderCallbacks<Response<User>>() {
             @Override
             public Loader<Response<User>> onCreateLoader(int id, Bundle args) {
                 return new ResponseLoader<User>(ctx) {
                     @Override
-                    protected User performLoad() {
-                        return api.getUser(username);
+                    protected User performLoad() throws BusinessLogicException{
+                        return userManager.Login(username, password);
                     }
                 };
             }
