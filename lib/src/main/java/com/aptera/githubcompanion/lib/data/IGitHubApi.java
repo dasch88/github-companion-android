@@ -10,6 +10,8 @@ import retrofit.http.Path;
  * Created by daschliman on 12/16/2015.
  */
 public interface IGitHubApi {
+    @GET("/user")
+    public User getAuthenticatedUser();
     @GET("/users/{user}")
     public User getUser(@Path("user") String user);
 }

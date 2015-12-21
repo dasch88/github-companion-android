@@ -9,12 +9,20 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.aptera.githubcompanion.app.activities.MainActivity">
 
+    <!--Image-->
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/imgProfileImage"
+        android:layout_width="@dimen/profile_image"
+        android:layout_height="@dimen/profile_image"
+        android:layout_marginRight="@dimen/label_data_margin" />
+
     <!--Username-->
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/txtUsernameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/label_data_margin"
+        android:layout_toRightOf="@id/imgProfileImage"
         android:text="@string/username_label"/>
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/txtUsername"
@@ -29,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/label_data_margin"
+        android:layout_toRightOf="@id/imgProfileImage"
         android:layout_below="@id/txtUsernameLabel"
         android:text="@string/name_label"/>
     <android.support.v7.widget.AppCompatTextView
@@ -45,6 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/label_data_margin"
+        android:layout_toRightOf="@id/imgProfileImage"
         android:layout_below="@id/txtNameLabel"
         android:text="@string/email_label"/>
     <android.support.v7.widget.AppCompatTextView
@@ -61,6 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/label_data_margin"
+        android:layout_toRightOf="@id/imgProfileImage"
         android:layout_below="@id/txtEmailLabel"
         android:text="@string/follower_count_label"/>
     <android.support.v7.widget.AppCompatTextView
@@ -77,6 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/label_data_margin"
+        android:layout_toRightOf="@id/imgProfileImage"
         android:layout_below="@id/txtFollowerCountLabel"
         android:text="@string/following_count_label"/>
     <android.support.v7.widget.AppCompatTextView

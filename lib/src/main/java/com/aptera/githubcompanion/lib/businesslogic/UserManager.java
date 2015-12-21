@@ -34,7 +34,7 @@ public class UserManager implements IUserManager, IStateful {
         try {
             Logout();
             mAuthHttpInterceptor.setCredentials(username, password);
-            mCurrentUser = mGitHubApi.getUser(username);
+            mCurrentUser = mGitHubApi.getAuthenticatedUser();
             return mCurrentUser;
         }
         catch(Exception ex) {
