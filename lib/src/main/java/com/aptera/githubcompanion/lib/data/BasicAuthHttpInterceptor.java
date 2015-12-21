@@ -1,11 +1,13 @@
 package com.aptera.githubcompanion.lib.data;
 
 import com.aptera.githubcompanion.lib.utilities.Base64;
+import com.aptera.githubcompanion.lib.utilities.IStatefulRegistry;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * Created by daschliman on 12/18/2015.
@@ -13,6 +15,10 @@ import java.io.IOException;
 public class BasicAuthHttpInterceptor implements Interceptor, IAuthHttpInterceptor {
 
     private String mAuthHeader;
+
+    public BasicAuthHttpInterceptor(IStatefulRegistry registry) {
+        registry.registerOnly(this);
+    }
 
     public void setCredentials(String username, String password) {
         if(username != null && password != null) {
@@ -43,5 +49,15 @@ public class BasicAuthHttpInterceptor implements Interceptor, IAuthHttpIntercept
         }
 
         return chain.proceed(origRequest);
+    }
+
+    @Override
+    public Serializable getState() {
+        return mAuthHeader;
+    }
+
+    @Override
+    public void restoreState(Serializable state) {
+        mAuthHeader = (String)state;
     }
 }

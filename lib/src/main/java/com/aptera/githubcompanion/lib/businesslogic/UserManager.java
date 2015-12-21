@@ -2,15 +2,18 @@ package com.aptera.githubcompanion.lib.businesslogic;
 
 import com.aptera.githubcompanion.lib.data.IAuthHttpInterceptor;
 import com.aptera.githubcompanion.lib.data.IGitHubApi;
-import com.aptera.githubcompanion.lib.data.Response;
 import com.aptera.githubcompanion.lib.model.User;
+import com.aptera.githubcompanion.lib.utilities.IStateful;
+import com.aptera.githubcompanion.lib.utilities.IStatefulRegistry;
+
+import java.io.Serializable;
 
 import retrofit.RetrofitError;
 
 /**
  * Created by daschliman on 12/21/2015.
  */
-public class UserManager implements IUserManager {
+public class UserManager implements IUserManager, IStateful {
 
     private IGitHubApi mGitHubApi;
     private IAuthHttpInterceptor mAuthHttpInterceptor;
@@ -20,10 +23,11 @@ public class UserManager implements IUserManager {
         return mCurrentUser;
     }
 
-    public UserManager(IGitHubApi gitHubApi, IAuthHttpInterceptor authHttpInterceptor) {
+    public UserManager(IGitHubApi gitHubApi, IAuthHttpInterceptor authHttpInterceptor, IStatefulRegistry registry) {
         mGitHubApi = gitHubApi;
         mAuthHttpInterceptor = authHttpInterceptor;
         mCurrentUser = null;
+        registry.registerOnly(this);
     }
 
     public User Login(String username, String password) throws BusinessLogicException{
@@ -52,4 +56,13 @@ public class UserManager implements IUserManager {
         throw new BusinessLogicException("An error occurred while " + action + ".", baseException);
     }
 
+    @Override
+    public Serializable getState() {
+        return mCurrentUser;
+    }
+
+    @Override
+    public void restoreState(Serializable state) {
+        mCurrentUser = (User)state;
+    }
 }

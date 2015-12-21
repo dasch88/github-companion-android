@@ -5,8 +5,9 @@ import com.aptera.githubcompanion.lib.businesslogic.UserManager;
 import com.aptera.githubcompanion.lib.data.BasicAuthHttpInterceptor;
 import com.aptera.githubcompanion.lib.data.IAuthHttpInterceptor;
 import com.aptera.githubcompanion.lib.data.IGitHubApi;
+import com.aptera.githubcompanion.lib.utilities.IStatefulRegistry;
+import com.aptera.githubcompanion.lib.utilities.StatefulRegistry;
 import com.squareup.okhttp.OkHttpClient;
-import com.sun.tracing.dtrace.ProviderAttributes;
 
 import javax.inject.Singleton;
 
@@ -20,6 +21,9 @@ import retrofit.client.OkClient;
  */
 @Module(complete = true, library = true)
 public class IocModule {
+    @Provides @Singleton public IStatefulRegistry provideStatefulRegistry() {
+        return new StatefulRegistry();
+    }
     @Provides @Singleton public IGitHubApi provideGitHubApi(IAuthHttpInterceptor authInterceptor) {
         String api = "https://api.github.com";
 
@@ -35,10 +39,10 @@ public class IocModule {
                 .build();
         return adapter.create(IGitHubApi.class);
     }
-    @Provides @Singleton public IAuthHttpInterceptor provideAuthHttpInterceptor() {
-        return new BasicAuthHttpInterceptor();
+    @Provides @Singleton public IAuthHttpInterceptor provideAuthHttpInterceptor(IStatefulRegistry reg) {
+        return new BasicAuthHttpInterceptor(reg);
     }
-    @Provides @Singleton public IUserManager provideUserManager(IGitHubApi api, IAuthHttpInterceptor auth) {
-        return new UserManager(api, auth);
+    @Provides @Singleton public IUserManager provideUserManager(IGitHubApi api, IAuthHttpInterceptor auth, IStatefulRegistry reg) {
+        return new UserManager(api, auth, reg);
     }
 }

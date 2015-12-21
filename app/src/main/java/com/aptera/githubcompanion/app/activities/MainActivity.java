@@ -21,7 +21,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //make sure that there is a currenly logged in user. if not, load up the login activity
+        //make sure that there is a currently logged in user. if not, load up the login activity
         if(userManager.getCurrentUser() == null) {
             Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);

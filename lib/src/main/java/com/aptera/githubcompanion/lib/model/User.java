@@ -3,10 +3,12 @@ package com.aptera.githubcompanion.lib.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by daschliman on 12/16/2015.
  */
-public class User {
+public class User implements Serializable {
 
     private String login;
     @Expose
