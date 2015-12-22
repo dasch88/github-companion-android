@@ -4,5 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="label_data_margin">8dp</dimen>
+    <dimen name="describable_name_spacing">4dp</dimen>
+    <dimen name="describable_indent">0dp</dimen>
     <dimen name="profile_image">100dp</dimen>
 </resources>

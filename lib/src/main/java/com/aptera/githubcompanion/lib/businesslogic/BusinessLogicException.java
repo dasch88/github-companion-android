@@ -22,4 +22,11 @@ public class BusinessLogicException extends Exception {
                         boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
+
+    public static BusinessLogicException BuildWrapper(String action, Exception baseException) {
+        String wholeMsg = (action != null ? "An error occurred while " + action + "." : "An error occurred.");
+        return new BusinessLogicException(wholeMsg, baseException);
+    }
+
+
 }

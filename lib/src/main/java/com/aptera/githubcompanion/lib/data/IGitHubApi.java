@@ -1,5 +1,6 @@
 package com.aptera.githubcompanion.lib.data;
 
+import com.aptera.githubcompanion.lib.model.Repository;
 import com.aptera.githubcompanion.lib.model.User;
 
 import retrofit.Callback;
@@ -14,4 +15,6 @@ public interface IGitHubApi {
     public User getAuthenticatedUser();
     @GET("/users/{user}")
     public User getUser(@Path("user") String user);
+    @GET("/user/repos")
+    public Repository[] getAuthenticatedUserRepositories();
 }

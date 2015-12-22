@@ -273,7 +273,7 @@ public class LoginActivity extends BaseActivity {
                 return new ResponseLoader<User>(ctx) {
                     @Override
                     protected User performLoad() throws BusinessLogicException{
-                        return userManager.Login(username, password);
+                        return userManager.login(username, password);
                     }
                 };
             }

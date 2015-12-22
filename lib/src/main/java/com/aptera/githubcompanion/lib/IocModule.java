@@ -1,6 +1,8 @@
 package com.aptera.githubcompanion.lib;
 
+import com.aptera.githubcompanion.lib.businesslogic.IRepositoryManager;
 import com.aptera.githubcompanion.lib.businesslogic.IUserManager;
+import com.aptera.githubcompanion.lib.businesslogic.RepositoryManager;
 import com.aptera.githubcompanion.lib.businesslogic.UserManager;
 import com.aptera.githubcompanion.lib.data.BasicAuthHttpInterceptor;
 import com.aptera.githubcompanion.lib.data.IAuthHttpInterceptor;
@@ -44,5 +46,8 @@ public class IocModule {
     }
     @Provides @Singleton public IUserManager provideUserManager(IGitHubApi api, IAuthHttpInterceptor auth, IStatefulRegistry reg) {
         return new UserManager(api, auth, reg);
+    }
+    @Provides @Singleton public IRepositoryManager provideRepositoryManager(IGitHubApi api) {
+        return new RepositoryManager(api);
     }
 }

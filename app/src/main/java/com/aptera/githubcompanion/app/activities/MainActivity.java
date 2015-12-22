@@ -2,33 +2,35 @@ package com.aptera.githubcompanion.app.activities;
 
 import android.app.Activity;
 import android.app.LoaderManager;
-import android.content.CursorLoader;
 import android.content.Loader;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.ContactsContract;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.content.Context;
 import android.content.Intent;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aptera.githubcompanion.R;
 import com.aptera.githubcompanion.app.BaseActivity;
+import com.aptera.githubcompanion.app.adapters.DescribableArrayAdapter;
 import com.aptera.githubcompanion.app.loaders.BitmapLoader;
+import com.aptera.githubcompanion.app.loaders.ResponseLoader;
+import com.aptera.githubcompanion.lib.businesslogic.BusinessLogicException;
+import com.aptera.githubcompanion.lib.businesslogic.IRepositoryManager;
 import com.aptera.githubcompanion.lib.businesslogic.IUserManager;
+import com.aptera.githubcompanion.lib.data.IGitHubApi;
+import com.aptera.githubcompanion.lib.data.Response;
+import com.aptera.githubcompanion.lib.model.Repository;
 import com.aptera.githubcompanion.lib.model.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity {
 
     private static final int PROFILE_IMAGE_LOADER_ID = 0;
+    private static final int REPOSITORIES_LOADER_ID = 1;
 
     // UI references.
     private ImageView mImgProfileImage;
@@ -37,9 +39,13 @@ public class MainActivity extends BaseActivity {
     private TextView mTxtEmail;
     private TextView mTxtFollowerCount;
     private TextView mTxtFollowingCount;
+    private ListView mLstRepositories;
 
     @Inject
     public IUserManager userManager;
+
+    @Inject
+    public IRepositoryManager repositoryManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +58,10 @@ public class MainActivity extends BaseActivity {
         mTxtEmail = (TextView) findViewById(R.id.txtEmail);
         mTxtFollowerCount = (TextView) findViewById(R.id.txtFollowerCount);
         mTxtFollowingCount = (TextView) findViewById(R.id.txtFollowingCount);
+        mLstRepositories = (ListView) findViewById(R.id.lstRepositories);
 
         //make sure that there is a currently logged in user. if not, load up the login activity
-        if(userManager.getCurrentUser() == null) {
+        if(userManager.getCachedCurrentUser() == null) {
             Intent loginIntent = new Intent(this, LoginActivity.class);
             startActivity(loginIntent);
         }
@@ -64,17 +71,18 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setCurrentUserInfo() {
-        User currentUser = userManager.getCurrentUser();
+        User currentUser = userManager.getCachedCurrentUser();
         mTxtUsername.setText(currentUser.getLogin());
         mTxtName.setText(currentUser.getName());
         mTxtEmail.setText(currentUser.getEmail());
         mTxtFollowerCount.setText(currentUser.getFollowers().toString());
         mTxtFollowingCount.setText(currentUser.getFollowing().toString());
 
-        //load profile image
-        final Activity ctx = this;
-        final ImageView imgView = mImgProfileImage;
-        final String profileImageUrl = currentUser.getAvatarUrl();
+        loadCurrentUserProfileImage(this, mImgProfileImage, currentUser.getAvatarUrl());
+        loadCurrentUserRepositories(this, repositoryManager, mLstRepositories);
+    }
+
+    private void loadCurrentUserProfileImage(final Activity ctx, final ImageView imgView, final String profileImageUrl) {
         getLoaderManager().initLoader(PROFILE_IMAGE_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Bitmap>() {
 
             @Override
@@ -92,6 +100,36 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+    }
 
+    private void loadCurrentUserRepositories(final Activity ctx, final IRepositoryManager rMgr, final ListView lstRepositories) {
+        getLoaderManager().initLoader(REPOSITORIES_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Response<Repository[]>>() {
+
+            @Override
+            public Loader<Response<Repository[]>> onCreateLoader(int id, Bundle args) {
+                return new ResponseLoader<Repository[]>(ctx) {
+                    @Override
+                    protected Repository[] performLoad() throws BusinessLogicException {
+                        return rMgr.getCurrentUserRepositories();
+                    }
+                };
+            }
+
+            @Override
+            public void onLoadFinished(Loader<Response<Repository[]>> loader, Response<Repository[]> data) {
+                if (data.hasError()) {
+                    Toast.makeText(getApplicationContext(), data.getException().getMessage(), Toast.LENGTH_LONG).show();
+                } else {
+                    final DescribableArrayAdapter<Repository> adapter = new DescribableArrayAdapter<Repository>(ctx, R.layout.listitem_describable,
+                            R.id.txtName, R.id.txtDescription, data.getResult());
+                    lstRepositories.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onLoaderReset(Loader<Response<Repository[]>> loader) {
+
+            }
+        });
     }
 }

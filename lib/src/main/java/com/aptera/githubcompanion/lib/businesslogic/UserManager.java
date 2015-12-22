@@ -19,7 +19,7 @@ public class UserManager implements IUserManager, IStateful {
     private IAuthHttpInterceptor mAuthHttpInterceptor;
     private User mCurrentUser;
 
-    public User getCurrentUser() {
+    public User getCachedCurrentUser() {
         return mCurrentUser;
     }
 
@@ -30,30 +30,27 @@ public class UserManager implements IUserManager, IStateful {
         registry.registerOnly(this);
     }
 
-    public User Login(String username, String password) throws BusinessLogicException{
+    public User login(String username, String password) throws BusinessLogicException{
         try {
-            Logout();
+            logout();
             mAuthHttpInterceptor.setCredentials(username, password);
-            mCurrentUser = mGitHubApi.getAuthenticatedUser();
+            mCurrentUser = loadCurrentUser();
             return mCurrentUser;
         }
         catch(Exception ex) {
             mAuthHttpInterceptor.setCredentials(null, null);
-            if(ex instanceof RetrofitError && ((RetrofitError)ex).getResponse().getStatus() == 401)
-                throw new BusinessLogicException("Invalid credentials.", ex);
-            else
-                ThrowGenericBusinessLogicError("logging in", ex);
+            throw ex;
         }
-        return null;
     }
 
-    public void Logout() {
+    public void logout() {
         mAuthHttpInterceptor.setCredentials(null, null);
         mCurrentUser = null;
     }
 
-    private void ThrowGenericBusinessLogicError(String action, Exception baseException) throws BusinessLogicException {
-        throw new BusinessLogicException("An error occurred while " + action + ".", baseException);
+    public User reloadCachedCurrentUser() throws BusinessLogicException {
+        mCurrentUser = loadCurrentUser();
+        return mCurrentUser;
     }
 
     @Override
@@ -65,4 +62,19 @@ public class UserManager implements IUserManager, IStateful {
     public void restoreState(Serializable state) {
         mCurrentUser = (User)state;
     }
+
+    //support methods
+    private User loadCurrentUser() throws BusinessLogicException {
+        try {
+            mCurrentUser = mGitHubApi.getAuthenticatedUser();
+            return mCurrentUser;
+        }
+        catch(Exception ex) {
+            if(ex instanceof RetrofitError && ((RetrofitError)ex).getResponse().getStatus() == 401)
+                throw new BusinessLogicException("Invalid credentials.", ex);
+            else
+                throw BusinessLogicException.BuildWrapper("logging in", ex);
+        }
+    }
+
 }

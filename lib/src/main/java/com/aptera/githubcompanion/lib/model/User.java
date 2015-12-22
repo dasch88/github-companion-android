@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by daschliman on 12/16/2015.
  */
-public class User implements Serializable {
+public class User implements Serializable, IDescribable {
 
     private String login;
     @Expose
@@ -429,4 +429,13 @@ public class User implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public String toString() {
+        return getLogin();
+    }
+
+    @Override
+    public String getDescription() {
+        return getName();
+    }
 }
