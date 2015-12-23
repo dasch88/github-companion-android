@@ -5,6 +5,8 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
     card_view:cardUseCompatPadding="true"
     card_view:cardElevation="@dimen/normal_card_elevation">
 
@@ -12,8 +14,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true"
         android:background="?attr/selectableItemBackground"
         android:padding="@dimen/label_data_margin">
 

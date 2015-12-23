@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.aptera.githubcompanion.R;
 import com.aptera.githubcompanion.app.BaseActivity;
 import com.aptera.githubcompanion.app.adapters.DescribableRecyclerAdapter;
-import com.aptera.githubcompanion.app.adapters.RecyclerItemClickListener;
 import com.aptera.githubcompanion.app.loaders.BitmapLoader;
 import com.aptera.githubcompanion.app.loaders.ResponseLoader;
 import com.aptera.githubcompanion.lib.businesslogic.BusinessLogicException;
@@ -157,6 +156,7 @@ public class MainActivity extends BaseActivity {
 
     private void onRepositoryViewClicked(View v) {
         Repository repo = mRepositoriesAdapter.getItem(mLstRepositories.getChildAdapterPosition(v));
-        Toast.makeText(this, "Clicked repo: " + repo.toString(), Toast.LENGTH_LONG).show();
+        Intent repoIntent = new Intent(this, RepositoryActivity.class);
+        startActivity(repoIntent);
     }
 }
