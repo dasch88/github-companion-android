@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.aptera.githubcompanion.R;
 import com.aptera.githubcompanion.app.BaseActivity;
 import com.aptera.githubcompanion.app.adapters.DescribableRecyclerAdapter;
+import com.aptera.githubcompanion.app.adapters.RecyclerItemClickListener;
 import com.aptera.githubcompanion.app.loaders.BitmapLoader;
 import com.aptera.githubcompanion.app.loaders.ResponseLoader;
 import com.aptera.githubcompanion.lib.businesslogic.BusinessLogicException;
@@ -37,8 +40,7 @@ public class MainActivity extends BaseActivity {
     private static final int PROFILE_IMAGE_LOADER_ID = 0;
     private static final int REPOSITORIES_LOADER_ID = 1;
 
-    private final DescribableRecyclerAdapter<Repository> mRepositoriesAdapter =
-            new DescribableRecyclerAdapter<Repository>(R.layout.listitem_describable, R.id.txtName, R.id.txtDescription);
+    private DescribableRecyclerAdapter<Repository> mRepositoriesAdapter;
 
     // UI references.
     private ImageView mImgProfileImage;
@@ -74,6 +76,15 @@ public class MainActivity extends BaseActivity {
             mTxtFollowerCount = (TextView) findViewById(R.id.txtFollowerCount);
             mTxtFollowingCount = (TextView) findViewById(R.id.txtFollowingCount);
             mLstRepositories = (RecyclerView) findViewById(R.id.lstRepositories);
+
+
+            mRepositoriesAdapter =
+            new DescribableRecyclerAdapter<Repository>(R.layout.listitem_describable, R.id.txtName, R.id.txtDescription) {
+                @Override
+                public void onClick(View v) {
+                    onRepositoryViewClicked(v);
+                }
+            };
 
             mLstRepositories.setLayoutManager(new LinearLayoutManager(this));
             mLstRepositories.setAdapter(mRepositoriesAdapter);
@@ -142,5 +153,10 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private void onRepositoryViewClicked(View v) {
+        Repository repo = mRepositoriesAdapter.getItem(mLstRepositories.getChildAdapterPosition(v));
+        Toast.makeText(this, "Clicked repo: " + repo.toString(), Toast.LENGTH_LONG).show();
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by daschliman on 12/22/2015.
  */
-public class DescribableRecyclerAdapter<T extends IDescribable> extends RecyclerView.Adapter<DescribableRecyclerAdapter.ViewHolder> {
+public abstract class DescribableRecyclerAdapter<T extends IDescribable> extends RecyclerView.Adapter<DescribableRecyclerAdapter.ViewHolder> implements View.OnClickListener {
 
     private List<T> mDataset;
     private int mLayoutResourceId;
@@ -35,6 +35,7 @@ public class DescribableRecyclerAdapter<T extends IDescribable> extends Recycler
     public DescribableRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //create a new view and viewholder
         View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(mLayoutResourceId, null);
+        itemLayoutView.setOnClickListener(this);
         DescribableRecyclerAdapter.ViewHolder viewHolder = new DescribableRecyclerAdapter.ViewHolder(itemLayoutView, mPrimaryTextViewResourceId, mSecondaryTextViewResourceId);
         return viewHolder;
     }
@@ -55,6 +56,12 @@ public class DescribableRecyclerAdapter<T extends IDescribable> extends Recycler
             return mDataset.size();
         else
             return 0;
+    }
+
+    public T getItem(int position) {
+        if(mDataset != null)
+            return mDataset.get(position);
+        return null;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
