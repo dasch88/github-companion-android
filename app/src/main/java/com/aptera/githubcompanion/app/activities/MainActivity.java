@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
@@ -75,7 +77,6 @@ public class MainActivity extends BaseActivity {
 
             mLstRepositories.setLayoutManager(new LinearLayoutManager(this));
             mLstRepositories.setAdapter(mRepositoriesAdapter);
-
 
             setCurrentUserInfo();
         }
