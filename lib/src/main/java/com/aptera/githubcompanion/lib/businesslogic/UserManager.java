@@ -30,6 +30,7 @@ public class UserManager implements IUserManager, IStateful {
         registry.registerOnly(this);
     }
 
+    @Override
     public User login(String username, String password) throws BusinessLogicException{
         try {
             logout();
@@ -43,14 +44,26 @@ public class UserManager implements IUserManager, IStateful {
         }
     }
 
+    @Override
     public void logout() {
         mAuthHttpInterceptor.setCredentials(null, null);
         mCurrentUser = null;
     }
 
+    @Override
     public User reloadCachedCurrentUser() throws BusinessLogicException {
         mCurrentUser = loadCurrentUser();
         return mCurrentUser;
+    }
+
+    @Override
+    public User getUser(String userLogin) throws BusinessLogicException {
+        try {
+            return mGitHubApi.getUser(userLogin);
+        }
+        catch(Exception ex) {
+            throw BusinessLogicException.BuildWrapper("loading user", ex);
+        }
     }
 
     @Override

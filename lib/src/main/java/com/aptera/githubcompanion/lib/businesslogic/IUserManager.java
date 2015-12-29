@@ -10,4 +10,5 @@ public interface IUserManager extends com.aptera.githubcompanion.lib.utilities.I
     User login(String username, String password) throws BusinessLogicException;
     void logout();
     User reloadCachedCurrentUser() throws BusinessLogicException;
+    User getUser(String userLogin) throws BusinessLogicException;
 }

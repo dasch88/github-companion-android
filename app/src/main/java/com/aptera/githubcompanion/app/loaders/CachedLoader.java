@@ -1,7 +1,7 @@
 package com.aptera.githubcompanion.app.loaders;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.support.v4.content.AsyncTaskLoader;
 
 import com.aptera.githubcompanion.lib.businesslogic.BusinessLogicException;
 import com.aptera.githubcompanion.lib.data.Response;

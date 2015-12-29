@@ -9,15 +9,22 @@ import dagger.ObjectGraph;
  */
 public class GitHubCompanionApp extends Application {
 
-    private ObjectGraph objectGraph;
+    private ObjectGraph mObjectGraph;
+    private static GitHubCompanionApp mInstance;
+
+    public static GitHubCompanionApp getInstance() {
+        return mInstance;
+    }
+
 
     @Override public void onCreate() {
         super.onCreate();
-        objectGraph = ObjectGraph.create(new IocModule());
+        mObjectGraph = ObjectGraph.create(new IocModule());
+        mInstance = this;
     }
 
     public void inject(Object object) {
-        objectGraph.inject(object);
+        mObjectGraph.inject(object);
     }
 
 }

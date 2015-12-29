@@ -7,18 +7,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.aptera.githubcompanion.R;
-import com.aptera.githubcompanion.app.BaseActivity;
 import com.aptera.githubcompanion.app.loaders.ResponseLoader;
 import com.aptera.githubcompanion.lib.businesslogic.BusinessLogicException;
 import com.aptera.githubcompanion.lib.businesslogic.IUserManager;
@@ -155,7 +154,7 @@ public class LoginActivity extends BaseActivity {
         }
 
         final Context ctx = this;
-        getLoaderManager().initLoader(AUTOCOMPLETE_LOADER_ID, null, new LoaderCallbacks<Cursor>() {
+        getSupportLoaderManager().initLoader(AUTOCOMPLETE_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Cursor>() {
 
             @Override
             public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -267,7 +266,7 @@ public class LoginActivity extends BaseActivity {
     }
     private void performLogin(final String username, final String password) {
         final Activity ctx = this;
-        getLoaderManager().restartLoader(SIGN_IN_LOADER_ID, null, new LoaderCallbacks<Response<User>>() {
+        getSupportLoaderManager().restartLoader(SIGN_IN_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Response<User>>() {
             @Override
             public Loader<Response<User>> onCreateLoader(int id, Bundle args) {
                 return new ResponseLoader<User>(ctx) {

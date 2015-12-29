@@ -27,9 +27,19 @@ public class RepositoryManager implements IRepositoryManager {
     }
 
     @Override
-    public Repository getRepository(String ownerName, String repoName) throws BusinessLogicException {
+    public Repository[] getUserRepositories(String ownerLogin) throws BusinessLogicException {
         try {
-            return mGitHubApi.getRepository(ownerName, repoName);
+            return mGitHubApi.getUserRepositories(ownerLogin);
+        }
+        catch(Exception ex) {
+            throw BusinessLogicException.BuildWrapper("loading user repositories", ex);
+        }
+    }
+
+    @Override
+    public Repository getRepository(String ownerLogin, String repoName) throws BusinessLogicException {
+        try {
+            return mGitHubApi.getRepository(ownerLogin, repoName);
         }
         catch(Exception ex) {
             throw BusinessLogicException.BuildWrapper("loading repository", ex);

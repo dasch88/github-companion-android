@@ -1,8 +1,9 @@
-package com.aptera.githubcompanion.app;
+package com.aptera.githubcompanion.app.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.aptera.githubcompanion.app.GitHubCompanionApp;
 import com.aptera.githubcompanion.lib.utilities.IStateful;
 import com.aptera.githubcompanion.lib.utilities.IStatefulRegistry;
 
@@ -20,10 +21,8 @@ public class BaseActivity extends AppCompatActivity {
     @Inject
     public IStatefulRegistry statefulRegistry;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        ((GitHubCompanionApp) getApplication()).inject(this);
+    public BaseActivity() {
+        GitHubCompanionApp.getInstance().inject(this);
     }
 
     @Override

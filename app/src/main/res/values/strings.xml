@@ -12,22 +12,29 @@
     </string>
 
     <!-- Strings related to main activity -->
-    <string name="title_activity_main">Profile</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="action_settings">Settings</string>
+    <string name="action_sign_out">Sign out</string>
+
+    <!-- User Fragment -->
+    <string name="title_fragment_user">User</string>
+    <string name="title_fragment_currentUser">Profile</string>
     <string name="username_label">Username:</string>
     <string name="name_label">Name:</string>
     <string name="email_label">Email:</string>
     <string name="follower_count_label">Followers:</string>
     <string name="following_count_label">Following:</string>
 
-    <!-- Strings related to repository activity -->
-    <string name="title_activity_repository">Repository</string>
+    <!-- Repository Fragment -->
+    <string name="title_fragment_repository">Repository</string>
     <string name="full_name_label">Full Name:</string>
     <string name="description_label">Description:</string>
     <string name="default_branch_label">Default Branch:</string>
     <string name="open_issues_label">Open Issues:</string>
     <string name="subscribers_label">Subscribers:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
