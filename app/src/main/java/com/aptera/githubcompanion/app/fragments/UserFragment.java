@@ -153,23 +153,7 @@ public class UserFragment extends BaseFragment implements ITitled {
 
 
     private void loadUserProfileImage(final Context ctx, final ImageView imgView, final String profileImageUrl) {
-        getLoaderManager().initLoader(PROFILE_IMAGE_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Bitmap>() {
-
-            @Override
-            public Loader<Bitmap> onCreateLoader(int id, Bundle args) {
-                return new BitmapLoader(ctx, profileImageUrl);
-            }
-
-            @Override
-            public void onLoadFinished(Loader<Bitmap> loader, Bitmap data) {
-                imgView.setImageBitmap(data);
-            }
-
-            @Override
-            public void onLoaderReset(Loader<Bitmap> loader) {
-
-            }
-        });
+        getLoaderManager().initLoader(PROFILE_IMAGE_LOADER_ID, null, BitmapLoader.createImageLoaderCallbacks(getContext(), imgView, profileImageUrl));
     }
 
     private void loadUser(final Context ctx, final String userLogin, final IUserManager uMgr) {

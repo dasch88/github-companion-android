@@ -4,6 +4,9 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -39,4 +42,23 @@ public class BitmapLoader extends CachedLoader<Bitmap> {
         return response;
     }
 
+    public static LoaderManager.LoaderCallbacks<Bitmap> createImageLoaderCallbacks(final Context ctx, final ImageView imgView, final String imageUrl) {
+        return new LoaderManager.LoaderCallbacks<Bitmap>() {
+
+            @Override
+            public Loader<Bitmap> onCreateLoader(int id, Bundle args) {
+                return new BitmapLoader(ctx, imageUrl);
+            }
+
+            @Override
+            public void onLoadFinished(Loader<Bitmap> loader, Bitmap data) {
+                imgView.setImageBitmap(data);
+            }
+
+            @Override
+            public void onLoaderReset(Loader<Bitmap> loader) {
+
+            }
+        };
+    }
 }
