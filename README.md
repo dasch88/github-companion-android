@@ -1,5 +1,5 @@
 # github-companion-android
-Simple startup Android app that allows the user to login to github via basic authentication, and view GitHub data. Set up as an enterprise application, using with external Java library for business code and dependency injection.
+Simple startup Android app that allows the user to login to GitHub via basic authentication, and view GitHub data. Set up as an enterprise application, using with external Java library for business code and dependency injection.
 
 This is just the beginning of a mini enterprise-style android application still under development. This is an Android Studio project that uses basic authentication to log in the user via a GitHub account. It uses Retrofit for external (GitHub) service calls and Dagger for compile-time dependency injection. 
 
