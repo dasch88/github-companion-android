@@ -17,4 +17,6 @@ public interface IGitHubApi {
     public User getUser(@Path("user") String user);
     @GET("/user/repos")
     public Repository[] getAuthenticatedUserRepositories();
+    @GET("/repos/{owner}/{repo}")
+    public Repository getRepository(@Path("owner") String owner, @Path("repo") String repo);
 }

@@ -8,4 +8,5 @@ import com.aptera.githubcompanion.lib.model.User;
  */
 public interface IRepositoryManager {
     Repository[] getCurrentUserRepositories() throws BusinessLogicException;
+    Repository getRepository(String ownerName, String repoName) throws BusinessLogicException;
 }

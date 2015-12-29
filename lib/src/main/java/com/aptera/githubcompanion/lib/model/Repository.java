@@ -205,6 +205,18 @@ public class Repository implements Serializable, IDescribable {
     @SerializedName("permissions")
     @Expose
     private Permissions permissions;
+    @SerializedName("subscribers_count")
+    @Expose
+    private Integer subscribersCount;
+    @SerializedName("organization")
+    @Expose
+    private Organization organization;
+    @SerializedName("parent")
+    @Expose
+    private Repository parent;
+    @SerializedName("source")
+    @Expose
+    private Repository source;
 
     /**
      *
@@ -1376,9 +1388,80 @@ public class Repository implements Serializable, IDescribable {
         this.permissions = permissions;
     }
 
+    /**
+     *
+     * @return
+     *     The subscribersCount
+     */
+    public Integer getSubscribersCount() {
+        return subscribersCount;
+    }
+
+    /**
+     *
+     * @param subscribersCount
+     *     The subscribers_count
+     */
+    public void setSubscribersCount(Integer subscribersCount) {
+        this.subscribersCount = subscribersCount;
+    }
+
+    /**
+     *
+     * @return
+     *     The organization
+     */
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    /**
+     *
+     * @param organization
+     *     The organization
+     */
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+    /**
+     *
+     * @return
+     *     The parent
+     */
+    public Repository getParent() {
+        return parent;
+    }
+
+    /**
+     *
+     * @param parent
+     *     The parent
+     */
+    public void setParent(Repository parent) {
+        this.parent = parent;
+    }
+
+    /**
+     *
+     * @return
+     *     The source
+     */
+    public Repository getSource() {
+        return source;
+    }
+
+    /**
+     *
+     * @param source
+     *     The source
+     */
+    public void setSource(Repository source) {
+        this.source = source;
+    }
+
     @Override
     public String toString() {
         return getName();
     }
-
 }

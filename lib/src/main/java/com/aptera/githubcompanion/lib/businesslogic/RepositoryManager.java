@@ -25,4 +25,14 @@ public class RepositoryManager implements IRepositoryManager {
             throw BusinessLogicException.BuildWrapper("loading current user repositories", ex);
         }
     }
+
+    @Override
+    public Repository getRepository(String ownerName, String repoName) throws BusinessLogicException {
+        try {
+            return mGitHubApi.getRepository(ownerName, repoName);
+        }
+        catch(Exception ex) {
+            throw BusinessLogicException.BuildWrapper("loading repository", ex);
+        }
+    }
 }

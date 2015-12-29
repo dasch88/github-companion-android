@@ -1,133 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context="com.aptera.githubcompanion.app.activities.MainActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryLight"
-    android:padding="0dp"
-    tools:context="com.aptera.githubcompanion.app.activities.MainActivity">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/pnlHeader"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/mainToolbar"
+        android:theme="@style/AppToolbar"
+        style="@style/AppToolbar.Dimensions"/>
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/pnlDrawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:clipToPadding="false"
-        android:padding="@dimen/activity_horizontal_margin">
-        <!--Image-->
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/imgProfileImage"
-            android:layout_width="@dimen/profile_image"
-            android:layout_height="@dimen/profile_image"
-            android:layout_marginRight="@dimen/label_data_margin" />
-
-        <!--Username-->
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txtUsernameLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/label_data_margin"
-            android:layout_toRightOf="@id/imgProfileImage"
-            android:text="@string/username_label"/>
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txtUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/txtUsernameLabel"
-            android:text="N/A"/>
-
-        <!--Name-->
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txtNameLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/label_data_margin"
-            android:layout_toRightOf="@id/imgProfileImage"
-            android:layout_below="@id/txtUsernameLabel"
-            android:text="@string/name_label"/>
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txtName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/txtNameLabel"
-            android:layout_below="@id/txtUsernameLabel"
-            android:text="N/A"/>
-
-        <!--Email-->
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txtEmailLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/label_data_margin"
-            android:layout_toRightOf="@id/imgProfileImage"
-            android:layout_below="@id/txtNameLabel"
-            android:text="@string/email_label"/>
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txtEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/txtEmailLabel"
-            android:layout_below="@id/txtNameLabel"
-            android:text="N/A"/>
-
-        <!--Follower Count-->
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txtFollowerCountLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/label_data_margin"
-            android:layout_toRightOf="@id/imgProfileImage"
-            android:layout_below="@id/txtEmailLabel"
-            android:text="@string/follower_count_label"/>
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txtFollowerCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/txtFollowerCountLabel"
-            android:layout_below="@id/txtEmailLabel"
-            android:text="N/A"/>
-
-        <!--Following Count-->
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txtFollowingCountLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/label_data_margin"
-            android:layout_toRightOf="@id/imgProfileImage"
-            android:layout_below="@id/txtFollowerCountLabel"
-            android:text="@string/following_count_label"/>
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/txtFollowingCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/txtFollowingCountLabel"
-            android:layout_below="@id/txtFollowerCountLabel"
-            android:text="N/A"/>
-
-    </RelativeLayout>
-
-    <!--Repository List-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_below="@id/mainToolbar"
         android:background="@color/colorPrimaryLight"
-        android:layout_below="@id/pnlHeader"
-        android:layout_alignParentBottom="true">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="15dp"
-            android:background="@drawable/bottom_shadow"/>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/lstRepositories"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:clipToPadding="false">
-        </android.support.v7.widget.RecyclerView>
-    </RelativeLayout>
+        android:padding="0dp">
 
+        <!--Main Content View-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/pnlHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:clipToPadding="false"
+                android:padding="@dimen/activity_horizontal_margin">
+                <!--Image-->
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/imgProfileImage"
+                    android:layout_width="@dimen/profile_image"
+                    android:layout_height="@dimen/profile_image"
+                    android:layout_marginRight="@dimen/label_data_margin" />
+
+                <!--Username-->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtUsernameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/label_data_margin"
+                    android:layout_toRightOf="@id/imgProfileImage"
+                    android:text="@string/username_label"/>
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/txtUsernameLabel"
+                    android:text="N/A"/>
+
+                <!--Name-->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtNameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/label_data_margin"
+                    android:layout_toRightOf="@id/imgProfileImage"
+                    android:layout_below="@id/txtUsernameLabel"
+                    android:text="@string/name_label"/>
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/txtNameLabel"
+                    android:layout_below="@id/txtUsernameLabel"
+                    android:text="N/A"/>
+
+                <!--Email-->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtEmailLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/label_data_margin"
+                    android:layout_toRightOf="@id/imgProfileImage"
+                    android:layout_below="@id/txtNameLabel"
+                    android:text="@string/email_label"/>
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/txtEmailLabel"
+                    android:layout_below="@id/txtNameLabel"
+                    android:text="N/A"/>
+
+                <!--Follower Count-->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtFollowerCountLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/label_data_margin"
+                    android:layout_toRightOf="@id/imgProfileImage"
+                    android:layout_below="@id/txtEmailLabel"
+                    android:text="@string/follower_count_label"/>
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtFollowerCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/txtFollowerCountLabel"
+                    android:layout_below="@id/txtEmailLabel"
+                    android:text="N/A"/>
+
+                <!--Following Count-->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtFollowingCountLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/label_data_margin"
+                    android:layout_toRightOf="@id/imgProfileImage"
+                    android:layout_below="@id/txtFollowerCountLabel"
+                    android:text="@string/following_count_label"/>
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/txtFollowingCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/txtFollowingCountLabel"
+                    android:layout_below="@id/txtFollowerCountLabel"
+                    android:text="N/A"/>
+
+            </RelativeLayout>
+
+            <!--Repository List-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/colorPrimaryLight"
+                android:layout_below="@id/pnlHeader"
+                android:layout_alignParentBottom="true">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="@drawable/bottom_shadow"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/lstRepositories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:clipToPadding="false">
+                </android.support.v7.widget.RecyclerView>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <!--Navigation Drawer-->
+        <RelativeLayout
+            android:id="@+id/pnlNavigationDrawer"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:layout_gravity="start">
+
+            <!--Profile Box-->
+            <RelativeLayout
+                android:id="@+id/pnlProfileBox"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/colorPrimaryLight"
+                android:padding="8dp">
+                <ImageView
+                    android:id="@+id/imgDrawerProfileImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/imgDrawerProfileImage"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/txtDrawerUserLogin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorWhite"/>
+                    <TextView
+                        android:id="@+id/txtDrawerUserFullName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorWhite"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <!--Drawer Actions-->
+            <ListView
+                android:id="@+id/lstDrawerNavigationPages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/pnlProfileBox"
+                android:choiceMode="singleChoice"/>
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.DrawerLayout>
 
 </RelativeLayout>
+
+
+

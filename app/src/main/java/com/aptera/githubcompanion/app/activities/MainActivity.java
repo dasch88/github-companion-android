@@ -3,16 +3,18 @@ package com.aptera.githubcompanion.app.activities;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Loader;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +30,6 @@ import com.aptera.githubcompanion.lib.data.Response;
 import com.aptera.githubcompanion.lib.model.Repository;
 import com.aptera.githubcompanion.lib.model.User;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,6 +43,9 @@ public class MainActivity extends BaseActivity {
     private DescribableRecyclerAdapter<Repository> mRepositoriesAdapter;
 
     // UI references.
+    private DrawerLayout mPnlDrawerLayout;
+    private RelativeLayout mPnlNavigationDrawer;
+    private Toolbar mMainToolbar;
     private ImageView mImgProfileImage;
     private TextView mTxtUsername;
     private TextView mTxtName;
@@ -49,6 +53,8 @@ public class MainActivity extends BaseActivity {
     private TextView mTxtFollowerCount;
     private TextView mTxtFollowingCount;
     private RecyclerView mLstRepositories;
+
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Inject
     public IUserManager userManager;
@@ -68,6 +74,9 @@ public class MainActivity extends BaseActivity {
         else {
             setContentView(R.layout.activity_main);
 
+            mPnlDrawerLayout = (DrawerLayout) findViewById(R.id.pnlDrawerLayout);
+            mPnlNavigationDrawer = (RelativeLayout) findViewById(R.id.pnlNavigationDrawer);
+            mMainToolbar = (Toolbar) findViewById(R.id.mainToolbar);
             mImgProfileImage = (ImageView) findViewById(R.id.imgProfileImage);
             mTxtUsername = (TextView) findViewById(R.id.txtUsername);
             mTxtName = (TextView) findViewById(R.id.txtName);
@@ -76,7 +85,7 @@ public class MainActivity extends BaseActivity {
             mTxtFollowingCount = (TextView) findViewById(R.id.txtFollowingCount);
             mLstRepositories = (RecyclerView) findViewById(R.id.lstRepositories);
 
-
+            //setup repositories
             mRepositoriesAdapter =
             new DescribableRecyclerAdapter<Repository>(R.layout.listitem_describable, R.id.txtName, R.id.txtDescription) {
                 @Override
@@ -84,12 +93,39 @@ public class MainActivity extends BaseActivity {
                     onRepositoryViewClicked(v);
                 }
             };
-
             mLstRepositories.setLayoutManager(new LinearLayoutManager(this));
             mLstRepositories.setAdapter(mRepositoriesAdapter);
 
+            //setup drawer
+            setSupportActionBar(mMainToolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+
+            mDrawerToggle = new ActionBarDrawerToggle(this, mPnlDrawerLayout, mMainToolbar, R.string.drawer_open, R.string.drawer_close);
+            mPnlDrawerLayout.setDrawerListener(mDrawerToggle);
+            mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            mDrawerToggle.syncState();
+
+            //load user view with data
             setCurrentUserInfo();
         }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void setCurrentUserInfo() {
@@ -157,6 +193,8 @@ public class MainActivity extends BaseActivity {
     private void onRepositoryViewClicked(View v) {
         Repository repo = mRepositoriesAdapter.getItem(mLstRepositories.getChildAdapterPosition(v));
         Intent repoIntent = new Intent(this, RepositoryActivity.class);
+        repoIntent.putExtra(RepositoryActivity.REPOSITORY_NAME_EXTRA, repo.getName());
+        repoIntent.putExtra(RepositoryActivity.OWNER_EXTRA, repo.getOwner().getLogin());
         startActivity(repoIntent);
     }
 }
