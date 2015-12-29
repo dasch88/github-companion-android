@@ -1,13 +1,99 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.aptera.githubcompanion.app.fragments.RepositoryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/pnlRepoHeader"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:clipToPadding="false"
+        android:padding="@dimen/activity_horizontal_margin">
+        <!--Full Name-->
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtFullNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/label_data_margin"
+            android:text="@string/full_name_label"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/txtFullNameLabel"
+            android:text="N/A"/>
 
-</FrameLayout>
+        <!--Description-->
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtDescriptionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/label_data_margin"
+            android:layout_below="@id/txtFullName"
+            android:text="@string/description_label"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/txtDescriptionLabel"
+            android:layout_below="@id/txtFullName"
+            android:text="N/A"/>
+
+        <!--Default Branch-->
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtDefaultBranchLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/label_data_margin"
+            android:layout_below="@id/txtDescription"
+            android:text="@string/default_branch_label"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtDefaultBranch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/txtDefaultBranchLabel"
+            android:layout_below="@id/txtDescription"
+            android:text="N/A"/>
+
+        <!--Open Issues-->
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtOpenIssueCountLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/label_data_margin"
+            android:layout_below="@id/txtDefaultBranch"
+            android:text="@string/open_issues_label"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtOpenIssueCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/txtOpenIssueCountLabel"
+            android:layout_below="@id/txtDefaultBranch"
+            android:text="N/A"/>
+
+        <!--Subscriber Count-->
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtSubscriberCountLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/label_data_margin"
+            android:layout_below="@id/txtOpenIssueCount"
+            android:text="@string/subscribers_label"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/txtSubscriberCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/txtSubscriberCountLabel"
+            android:layout_below="@id/txtOpenIssueCount"
+            android:text="N/A"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_below="@id/pnlRepoHeader"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@drawable/bottom_shadow"/>
+
+</RelativeLayout>

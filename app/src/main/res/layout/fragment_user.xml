@@ -109,7 +109,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/colorPrimaryLight"
         android:layout_below="@id/pnlHeader"
         android:layout_alignParentBottom="true">
         <View

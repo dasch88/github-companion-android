@@ -44,8 +44,8 @@ public class RepositoryFragment extends BaseFragment implements ITitled {
         // Required empty public constructor
     }
 
-    public static UserFragment newInstance(String owner, String repoName) {
-        UserFragment fragment = new UserFragment();
+    public static RepositoryFragment newInstance(String owner, String repoName) {
+        RepositoryFragment fragment = new RepositoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_OWNER_EXTRA, owner);
         args.putString(ARG_REPOSITORY_NAME_EXTRA, repoName);

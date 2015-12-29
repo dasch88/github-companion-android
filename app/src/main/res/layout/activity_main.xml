@@ -72,6 +72,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/pnlProfileBox"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingTop="@dimen/label_data_margin"
                 android:choiceMode="singleChoice"/>
 
         </RelativeLayout>
